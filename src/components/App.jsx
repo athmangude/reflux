@@ -26,7 +26,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <AppBar title="My AppBar" />
+                <AppBar title="Awesome Chat App" />
                 <MessageList />
             </div>
         );
