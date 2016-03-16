@@ -3,6 +3,9 @@ import Message from './Message';
 
 import mui from 'material-ui';
 
+import Firebase from 'firebase';
+import _ from 'lodash';
+
 var {Card, List} = mui;
 
 class MessageList extends React.Component {
@@ -10,19 +13,34 @@ class MessageList extends React.Component {
         super(props);
 
         this.state = {
-            messages: [
-                'Hello there! How are you?',
-                'I am doing great! How are you doing?',
-                'All is well. What are you upto these days?',
-                'Haha! I left the country. I live abroad now :0'
-            ]
+            messages: []
         };
+
+        this.firebaseRef = new Firebase('https://refluxy.firebaseio.com/messages');
+        this.firebaseRef.once('value', (dataSnapshot) => {
+            var messagesVal = dataSnapshot.val();
+
+            var messages = _(messagesVal)
+                .keys()
+                .map((messageKey) => {
+                    var cloned = _.clone(messagesVal[messageKey]);
+                    cloned.key = parseInt(messageKey);
+                    return cloned;
+                })
+                .value();
+
+            this.setState({
+                messages: messages
+            });
+
+            console.log(this.state.messages);
+        });
     }
 
     render() {
         var messageNodes = this.state.messages.map((message) => {
             return (
-                <Message message={message} />
+                <Message message={message.message} />
             );
         });
 
