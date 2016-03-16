@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MessageList from './MessageList.jsx';
 import ChannelList from './ChannelList.jsx';
+import MessageBox from './MessageBox.jsx';
 
 import AppBar from 'material-ui/lib/app-bar';
 
@@ -38,6 +39,7 @@ class App extends Component {
                     <ChannelList />
                     <MessageList />
                 </div>
+                <MessageBox />
             </div>
         );
     }
